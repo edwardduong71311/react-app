@@ -85,7 +85,7 @@ const tabList: Tab[] = [
   { type: TAB_TYPE.NEWEST, text: 'Newest' },
 ]
 
-const App = () => {
+export default function App_Lab6() {
   // const commentRef = useRef<HTMLTextAreaElement>(null);
   const [loggedInUser] = useState<User>(userInfo);
   const [tabs] = useState<Tab[]>(tabList);
@@ -218,5 +218,3 @@ const App = () => {
     </div>
   )
 }
-
-export default App
