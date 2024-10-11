@@ -5,11 +5,10 @@ type Prop = {
     onChange: Function;
     onPostComment: Function;
 }
-export default function CommentComponent(props: Prop) {
+export default function CommentComponentStateless(props: Readonly<Prop>) {
     const commentRef = useRef<HTMLTextAreaElement>(null);
 
     return (<div className="reply-box-wrap">
-        {/* comment */}
         <textarea
             ref={commentRef}
             className="reply-box-textarea"
@@ -17,12 +16,11 @@ export default function CommentComponent(props: Prop) {
             value={props.text}
             onChange={(event) => props.onChange(event.target.value)}
         />
-        {/* post button */}
         <div className="reply-box-send">
-            <div className="send-text" onClick={() => {
+            <button className="send-text" onClick={() => {
                 props.onPostComment();
                 commentRef?.current?.focus();
-            }}>post</div>
+            }}>Post</button>
         </div>
     </div>)
 }
