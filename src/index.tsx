@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-
-import App_Lab6 from './App_Lab6';
+import AppLab6_1 from "./AppLab6_1";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-    <App_Lab6 />
+    <AppLab6_1 />
 );
 
