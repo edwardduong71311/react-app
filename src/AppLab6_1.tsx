@@ -1,16 +1,16 @@
 import './App.scss'
-import React, {useMemo, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import dayjs from "dayjs";
 import CommentComponentStateless from "./CommentComponentStateless";
 import {Tab, TAB_TYPE, User, UserComment} from "./types/App.type";
-import {default_comments, tabList, userInfo} from "./data/lab6Data";
+import {getComments, getUserInfo, tabList} from "./data/lab6Data";
 
 
 export default function AppLab6_1() {
-  const [loggedInUser] = useState<User>(userInfo);
+  const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
   const [tabs] = useState<Tab[]>(tabList);
   const [tab, setTab] = useState<TAB_TYPE>(tabList[0].type);
-  const [comments, setComments] = useState<UserComment[]>(default_comments);
+  const [comments, setComments] = useState<UserComment[]>([]);
   const [text, setText] = useState<string>('');
 
   const sortComment = (type: TAB_TYPE) => {
@@ -18,6 +18,8 @@ export default function AppLab6_1() {
   }
 
   const postComment = () => {
+    if (!loggedInUser) return;
+
     const comment: UserComment = {
       rPid: comments.length + 1,
       user: loggedInUser,
@@ -43,6 +45,25 @@ export default function AppLab6_1() {
       return comments.sort((a, b) => b.ctime.localeCompare(a.ctime));
     }
   }, [comments, tab]);
+
+  const init = (getCommentController: AbortController, getUserInfoController: AbortController) => {
+    getComments(getCommentController.signal).then(data => {
+      setComments(data);
+    })
+    getUserInfo(getUserInfoController.signal).then(data => {
+      setLoggedInUser(data);
+    })
+  }
+
+  useEffect(() => {
+    const getCommentController = new AbortController();
+    const getUserInfoController = new AbortController();
+    init(getCommentController, getUserInfoController);
+    return () => {
+      getCommentController.abort();
+      getUserInfoController.abort();
+    }
+  }, []);
 
   return (
     <div className="app">
@@ -73,7 +94,7 @@ export default function AppLab6_1() {
           {/* current logged in user profile */}
           <div className="reply-box-avatar">
             <div className="bili-avatar">
-              <img className="bili-avatar-img" src={loggedInUser.avatar} alt="Profile"/>
+              <img className="bili-avatar-img" src={loggedInUser ? loggedInUser.avatar : ''} alt="Profile"/>
             </div>
           </div>
           <CommentComponentStateless text={text} onChange={setText} onPostComment={postComment}/>
