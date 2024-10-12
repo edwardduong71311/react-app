@@ -20,7 +20,7 @@ export default function CommentComponentStateful(props: Readonly<Prop>) {
         <div className="reply-box-send">
             <div className="reply-box-send">
                 <button className="send-text" onClick={() => {
-                    props.onPostComment();
+                    props.onPostComment(text);
                     setText('');
                     commentRef?.current?.focus();
                 }}>Post
