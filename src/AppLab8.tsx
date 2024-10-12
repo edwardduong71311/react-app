@@ -19,8 +19,6 @@ export default function AppLab8() {
   const postComment = (text: string) => {
     if (!loggedInUser) return;
 
-    console.log(text)
-
     const comment: UserComment = {
       rPid: comments.length + 1,
       user: loggedInUser,
