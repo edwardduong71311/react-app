@@ -1,7 +1,7 @@
 import './App.scss'
 import React, {useEffect, useMemo, useState} from "react";
 import dayjs from "dayjs";
-import CommentComponentStateful from "./CommentComponentStateful";
+import CommentComponentStateful from "./components/CommentComponentStateful";
 import {Tab, TAB_TYPE, User, UserComment} from "./types/App.type";
 import {getComments, getUserInfo, tabList} from "./data/lab6Data";
 
